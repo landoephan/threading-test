@@ -1,15 +1,33 @@
 package main
 
-func sortingSingle(s []int) []int {
+import (
+	"sync"
+)
+
+func sortingMulti(s []int) []int {
 	if len(s) <= 1 {
 		return s
 	}
 
 	n := len(s) / 2
+
+	wg := sync.WaitGroup{}
+	wg.Add(2)
+
 	var l []int
 	var r []int
-	l = sortingSingle(s[:n])
-	r = sortingSingle(s[n:])
+
+	go func() {
+		l = sortingMulti(s[:n])
+		wg.Done()
+	}()
+
+	go func() {
+		r = sortingMulti(s[:n])
+		wg.Done()
+	}()
+
+	wg.Wait()
 	return merge(l, r)
 }
 
@@ -39,5 +57,6 @@ func main() {
 
 	arr1 := make([]int, len(usedArr))
 	copy(arr1, usedArr)
-	_ = sortingSingle(arr1)
+	// sorting takes long, but sorts
+	_ = sortingMulti(arr1)
 }
