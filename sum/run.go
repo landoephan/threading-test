@@ -1,10 +1,7 @@
 package main
 
 import (
-	"fmt"
-	"log"
 	"sync"
-	"time"
 )
 
 var length = 10_000_000_000
@@ -38,33 +35,23 @@ func oddNumberSumMulti(wg *sync.WaitGroup) {
 }
 
 func singleThread() {
-	fmt.Println("Running single thread for loop…")
-	start := time.Now()
-	for i := 0; i < 5; i++ {
+	for j := 0; j < 10; j++ {
 		evenNumberSum()
 		oddNumberSum()
 	}
-	elapsed := time.Since(start)
-	log.Printf("Loop took %s", elapsed)
-	fmt.Println("------------------------------------------------------------------------------------------------------------------------")
 }
 
 func multiThread() {
 	var wg sync.WaitGroup
-	fmt.Println("Running multi thread for loop…")
-	start := time.Now()
-	for i := 0; i < 5; i++ {
+	for j := 0; j < 10; j++ {
 		wg.Add(2)
 		go evenNumberSumMulti(&wg)
 		go oddNumberSumMulti(&wg)
 	}
 	wg.Wait()
-	elapsed := time.Since(start)
-	log.Printf("Loop took %s", elapsed)
-	fmt.Println("------------------------------------------------------------------------------------------------------------------------")
 }
 
 func main() {
 	singleThread()
-	multiThread()
+	//multiThread()
 }

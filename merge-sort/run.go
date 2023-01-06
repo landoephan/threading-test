@@ -1,10 +1,7 @@
 package main
 
 import (
-	"fmt"
-	"log"
 	"sync"
-	"time"
 )
 
 func sortingSingle(s []int) []int {
@@ -67,34 +64,13 @@ func merge(l, r []int) []int {
 	return ret
 }
 
-func singleThread(arr []int) []int {
-	fmt.Println("Running single thread for loop…")
-	start := time.Now()
-	arr = sortingSingle(arr)
-	elapsed := time.Since(start)
-	log.Printf("Loop took %s", elapsed)
-	fmt.Println("------------------------------------------------------------------------------------------------------------------------")
-	return arr
-}
-
-func multiThread(arr []int) []int {
-	fmt.Println("Running multi thread for loop…")
-	start := time.Now()
-	arr = sortingMulti(arr)
-	elapsed := time.Since(start)
-	log.Printf("Loop took %s", elapsed)
-	fmt.Println("------------------------------------------------------------------------------------------------------------------------")
-	return arr
-}
-
 func main() {
-	var usedArr = arr100_000
+	//randomizeSlice(10_000_000)
+	var usedArr, _ = readLines("data_100_million")
+
 	arr1 := make([]int, len(usedArr))
 	copy(arr1, usedArr)
-	arr2 := make([]int, len(usedArr))
-	copy(arr2, usedArr)
-
-	arr1 = singleThread(arr1)
+	_ = sortingSingle(arr1)
 	// sorting takes long, but sorts
-	arr2 = multiThread(arr2)
+	//_ = sortingMulti(arr1)
 }
